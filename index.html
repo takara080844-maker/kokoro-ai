@@ -265,6 +265,31 @@
             padding: 3rem 2rem;
         }
 
+        /* ===== Greeting セクション ===== */
+        #greeting .container {
+            background-image: url('greeting.png');
+            background-size: cover;
+            background-position: right center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        #greeting .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
+            z-index: 0;
+        }
+
+        #greeting .container > * {
+            position: relative;
+            z-index: 1;
+        }
+
         h2 {
             font-size: 2rem;
             color: #333;
@@ -748,6 +773,35 @@
             margin-top: 1rem;
         }
 
+        /* ===== Greeting セクション ===== */
+        #greeting .container {
+            background-image: url('greeting.png');
+            background-size: cover;
+            background-position: right center;
+            background-attachment: fixed;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #greeting .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
+            z-index: 0;
+        }
+
+        #greeting .container > * {
+            position: relative;
+            z-index: 1;
+        }
+
         /* ===== 戻るボタン ===== */
         .back-to-home {
             display: inline-block;
@@ -833,6 +887,15 @@
 
             .btn-primary, .btn-secondary {
                 width: 100%;
+            }
+
+            #greeting .container {
+                background-attachment: scroll;
+                background-position: center;
+            }
+
+            #greeting .container::before {
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
             }
         }
 
