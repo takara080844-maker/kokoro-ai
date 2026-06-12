@@ -736,6 +736,26 @@
             margin-top: 1rem;
         }
 
+        /* ===== 戻るボタン ===== */
+        .back-to-home {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            background: white;
+            color: #ff9a9e;
+            border: 2px solid #ff9a9e;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .back-to-home:hover {
+            background: #fff0f0;
+            transform: translateX(-3px);
+        }
+
         /* ===== レスポンシブ ===== */
         @media (max-width: 768px) {
             nav {
@@ -963,6 +983,7 @@
         <section id="greeting">
             <div class="container">
                 <h2>ごあいさつ</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
                 <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin: 2rem 0;">
                     <p style="font-size: 1.1rem; color: #666; line-height: 2; margin-bottom: 1.5rem;">
                         こんにちは。cocoa カウンセリングルームの TAKARA です。
@@ -993,6 +1014,7 @@
         <section id="profile">
             <div class="container">
                 <h2>プロフィール</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
                 <div class="profile-grid">
                     <div class="profile-image">
                         <div class="profile-image-placeholder">TAKARA</div>
@@ -1021,6 +1043,7 @@
         <section id="services">
             <div class="container">
                 <h2>サービス・料金</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
                 <div class="pricing-cards">
                     <div class="pricing-card">
                         <h3>AI心理分析プラン</h3>
@@ -1092,6 +1115,7 @@
         <section id="mypage">
             <div class="container">
                 <h2>マイページ</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
 
                 <div id="not-logged-in" style="text-align: center; padding: 3rem 0;">
                     <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">マイページをご利用いただくにはログインが必要です</p>
@@ -1174,6 +1198,7 @@
         <section id="community">
             <div class="container">
                 <h2>会員限定コミュニティ</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
 
                 <div id="community-not-logged-in" style="text-align: center; padding: 3rem 0;">
                     <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">コミュニティをご利用いただくにはログインが必要です</p>
@@ -1216,6 +1241,7 @@
         <section id="privacy">
             <div class="container">
                 <h2>プライバシーポリシー</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
                 <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
                     <h3>個人情報の利用について</h3>
                     <p style="color: #666; margin: 1rem 0;">
@@ -1265,6 +1291,7 @@
         <section id="commerce">
             <div class="container">
                 <h2>特定商取引法に基づく表示</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
                 <table>
                     <tbody>
                         <tr>
@@ -1324,6 +1351,7 @@
         <section id="login">
             <div class="login-container">
                 <h2 style="margin-top: 0;">ログイン</h2>
+                <button class="back-to-home" onclick="showSection('home')" style="display: block; margin: 0 auto 1.5rem;">← ホームに戻る</button>
 
                 <div id="login-form">
                     <div class="form-group">
@@ -1359,6 +1387,7 @@
         <section id="contact">
             <div class="container">
                 <h2>お問い合わせ</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
                 <div style="max-width: 600px; margin: 0 auto;">
                     <form id="contact-form" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
                         <div class="form-group">
