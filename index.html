@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kokoro.ai - cocoa カウンセリングルーム</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Noto Sans JP';
+            background: linear-gradient(135deg, #fff9f5 0%, #fffaf8 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== ナビゲーション ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #ff9a9e;
+        }
+
+        .login-btn, .logout-btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover, .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);
+        }
+
+        /* ボトムナビ（スマホ） */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            z-index: 1000;
+        }
+
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+        }
+
+        .bottom-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: #999;
+            font-size: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .bottom-nav-item.active {
+            color: #ff9a9e;
+        }
+
+        /* ===== メインコンテンツ ===== */
+        main {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== ホーム ===== */
+        .hero {
+            background: linear-gradient(135deg, #fff9f5 0%, #ffe9e6 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 182, 193, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .characters {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .character {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .character-emoji {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .character-name {
+            font-weight: bold;
+            color: #ff9a9e;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin: 2rem 0;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 154, 158, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #ff9a9e;
+            border: 2px solid #ff9a9e;
+        }
+
+        .btn-secondary:hover {
+            background: #fff0f0;
+        }
+
+        /* ===== コンテンツセクション ===== */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #ff9a9e;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== プロフィール ===== */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .profile-image {
+            text-align: center;
+        }
+
+        .profile-image-placeholder {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        .profile-content {
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ===== サービス・料金 ===== */
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-top: 4px solid #ff9a9e;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.2);
+        }
+
+        .pricing-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #ff9a9e;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .pricing-description {
+            color: #666;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .pricing-features {
+            text-align: left;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .pricing-features li {
+            list-style: none;
+            padding: 0.5rem 0;
+            color: #666;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .pricing-features li::before {
+            content: '✓ ';
+            color: #ff9a9e;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .pricing-card .btn-primary {
+            width: 100%;
+            margin-top: 1rem;
+            border: none;
+        }
+
+        /* ===== ログイン ===== */
+        .login-container {
+            max-width: 400px;
+            margin: 4rem auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff9a9e;
+        }
+
+        .form-group input::placeholder {
+            color: #ccc;
+        }
+
+        .login-container .btn-primary {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .login-options {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .login-option-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== AIチャット ===== */
+        .chat-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #fafafa;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 10px;
+            word-break: break-word;
+        }
+
+        .message.assistant .message-content {
+            background: #fff;
+            border-left: 4px solid #ff9a9e;
+            color: #333;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            border-radius: 15px 0 15px 15px;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            order: 2;
+        }
+
+        .chat-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input-container input:focus {
+            outline: none;
+            border-color: #ff9a9e;
+        }
+
+        .chat-send-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .chat-send-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);
+        }
+
+        .chat-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            color: #999;
+            font-style: italic;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== 掲示板 ===== */
+        .community-board {
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        .thread-item {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid #ff9a9e;
+        }
+
+        .thread-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .thread-title {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .thread-meta {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .thread-preview {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .new-thread-btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .new-thread-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);
+        }
+
+        /* ===== マイページ ===== */
+        .mypage-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+        }
+
+        .mypage-tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            margin-bottom: -2px;
+        }
+
+        .mypage-tab.active {
+            color: #ff9a9e;
+            border-bottom-color: #ff9a9e;
+        }
+
+        .tarot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tarot-card {
+            aspect-ratio: 2/3;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tarot-card:hover {
+            transform: rotateY(180deg) scale(1.05);
+        }
+
+        /* ===== フッター ===== */
+        footer {
+            background: linear-gradient(135deg, #fff9f5 0%, #ffe9e6 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ff9a9e;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            color: #ff9a9e;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .social-icon:hover {
+            background: #ff9a9e;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: #bbb;
+            margin-top: 1rem;
+        }
+
+        /* ===== レスポンシブ ===== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .login-btn, .logout-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            main {
+                padding-top: 60px;
+                padding-bottom: 80px;
+            }
+
+            .bottom-nav {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-container {
+                height: 400px;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .mypage-tabs {
+                gap: 0.5rem;
+            }
+
+            .mypage-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .footer-links {
+                gap: 1rem;
+                font-size: 0.8rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        /* ===== アラート ===== */
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+
+        /* ===== テーブル ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">✨ kokoro.ai</div>
+            <ul class="nav-links">
+                <li><a onclick="showSection('greeting')">ごあいさつ</a></li>
+                <li><a onclick="showSection('profile')">プロフィール</a></li>
+                <li><a onclick="showSection('privacy')">プライバシー</a></li>
+                <li><a onclick="showSection('contact')">お問い合わせ</a></li>
+                <li>
+                    <a href="https://www.instagram.com/takara_insight/" target="_blank" title="Instagram">📷</a>
+                </li>
+                <li>
+                    <a href="https://x.com/takaran0880" target="_blank" title="X">𝕏</a>
+                </li>
+                <li>
+                    <a href="https://www.threads.net/@takara_insight" target="_blank" title="Threads">💬</a>
+                </li>
+                <li id="nav-login"><button class="login-btn" onclick="showSection('login')">ログイン</button></li>
+                <li id="nav-logout" style="display: none;"><button class="logout-btn" onclick="logout()">ログアウト</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ボトムナビ（スマホ） -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-items">
+            <div class="bottom-nav-item active" onclick="showSection('home'); updateBottomNav(this)">🏠 ホーム</div>
+            <div class="bottom-nav-item" onclick="showSection('services'); updateBottomNav(this)">💎 サービス</div>
+            <div class="bottom-nav-item" onclick="showSection('mypage'); updateBottomNav(this)">👤 マイページ</div>
+            <div class="bottom-nav-item" onclick="showSection('community'); updateBottomNav(this)">💬 コミュニティ</div>
+            <div class="bottom-nav-item" onclick="showSection('contact'); updateBottomNav(this)">📧 問い合わせ</div>
+        </div>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <!-- ホーム -->
+        <section id="home" class="active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>kokoro.ai</h1>
+                    <p style="color: #999; font-size: 1.1rem; margin-bottom: 1.5rem;">cocoa カウンセリングルーム</p>
+
+                    <div class="characters">
+                        <div class="character">
+                            <div class="character-emoji">💕</div>
+                            <div class="character-name">愛ちゃん</div>
+                            <div style="font-size: 0.9rem; color: #666;">女性性エネルギー</div>
+                        </div>
+                        <div class="character">
+                            <div class="character-emoji">💙</div>
+                            <div class="character-name">純くん</div>
+                            <div style="font-size: 0.9rem; color: #666;">男性性エネルギー</div>
+                        </div>
+                    </div>
+
+                    <div class="hero-description">
+                        <p>インナーチャイルド、愛着スタイル、自己肯定感への向き合い方を、心理とスピリチュアルの視点から丁寧にサポート。</p>
+                        <p style="margin-top: 1rem;">AI心理分析と個別セッション、会員限定コミュニティを通じて、あなたの心の奥底にある可能性に気づくお手伝いをします。</p>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <button class="btn-primary" onclick="showSection('services')">サービスを見る</button>
+                        <button class="btn-secondary" onclick="showSection('greeting')">詳しく知る</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <h2>こんなお悩みはありませんか？</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ff9a9e; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💭</div>
+                        <h3 style="margin-top: 0;">自己肯定感が低い</h3>
+                        <p style="color: #666;">自分のことをなかなか認められず、いつも不安な気持ちを抱えている</p>
+                    </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #fad0c4; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔄</div>
+                        <h3 style="margin-top: 0;">恋愛パターンが繰り返される</h3>
+                        <p style="color: #666;">同じような問題が何度も起きて、関係性に悩んでいる</p>
+                    </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ff9a9e; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👶</div>
+                        <h3 style="margin-top: 0;">インナーチャイルドの傷</h3>
+                        <p style="color: #666;">子どもの頃の経験が今でも心に影響を与えている</p>
+                    </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #fad0c4; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔗</div>
+                        <h3 style="margin-top: 0;">愛着スタイルの影響</h3>
+                        <p style="color: #666;">人間関係や親との関係についてもっと理解したい</p>
+                    </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ff9a9e; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">✨</div>
+                        <h3 style="margin-top: 0;">スピリチュアルと心理</h3>
+                        <p style="color: #666;">心と魂の奥深い部分を探求し、本来の自分を取り戻したい</p>
+                    </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #fad0c4; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌱</div>
+                        <h3 style="margin-top: 0;">人生をもっと豊かに</h3>
+                        <p style="color: #666;">今よりも充実した、本当に自分らしい人生を歩みたい</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ごあいさつ -->
+        <section id="greeting">
+            <div class="container">
+                <h2>ごあいさつ</h2>
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin: 2rem 0;">
+                    <p style="font-size: 1.1rem; color: #666; line-height: 2; margin-bottom: 1.5rem;">
+                        こんにちは。cocoa カウンセリングルームの TAKARA です。
+                    </p>
+                    <p style="color: #666; margin-bottom: 1.5rem;">
+                        このサイトへのご訪問、ありがとうございます。
+                    </p>
+                    <p style="color: #666; margin-bottom: 1.5rem;">
+                        私たちのカウンセリングルームでは、心理学とスピリチュアルの視点から、あなたの心の奥底にある可能性に気づくお手伝いをしています。
+                    </p>
+                    <p style="color: #666; margin-bottom: 1.5rem;">
+                        インナーチャイルド、愛着スタイル、自己肯定感という3つのテーマを中心に、あなたが本当にやりたいことに向かって歩めるようサポートします。
+                    </p>
+                    <p style="color: #666; margin-bottom: 1.5rem;">
+                        AI心理分析、個別セッション、会員限定コミュニティなど、複数の方法であなたのペースに合わせたサポートを提供しています。
+                    </p>
+                    <p style="color: #666; margin-bottom: 1.5rem; font-style: italic;">
+                        あなたの心の声に耳を傾け、本当の自分へと歩み続けることをお応援します。
+                    </p>
+                    <p style="color: #999; font-size: 0.95rem; margin-top: 2rem; border-top: 1px solid #f0f0f0; padding-top: 1.5rem;">
+                        — cocoa カウンセリングルーム TAKARA
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- プロフィール -->
+        <section id="profile">
+            <div class="container">
+                <h2>プロフィール</h2>
+                <div class="profile-grid">
+                    <div class="profile-image">
+                        <div class="profile-image-placeholder">TAKARA</div>
+                    </div>
+                    <div class="profile-content">
+                        <h3 style="margin-top: 0;">TAKARA</h3>
+                        <p style="color: #ff9a9e; font-weight: 500; margin-bottom: 1rem;">cocoa カウンセリングルーム 運営者</p>
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            心理カウンセラー・スピリチュアルコーチ
+                        </p>
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            インナーチャイルド、愛着理論、自己肯定感を専門とする心理カウンセラー。心理学とスピリチュアルの統合的なアプローチで、クライアントの内面的成長をサポートしています。
+                        </p>
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            個別セッション、AI心理分析、会員限定コミュニティを通じて、多くの方の心の変化と成長を見守ってきました。
+                        </p>
+                        <p style="color: #999; font-size: 0.9rem;">
+                            📍 沖縄県 | 💬 Zoom対応
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- サービス・料金 -->
+        <section id="services">
+            <div class="container">
+                <h2>サービス・料金</h2>
+                <div class="pricing-cards">
+                    <div class="pricing-card">
+                        <h3>AI心理分析プラン</h3>
+                        <div class="price">¥990<span class="price-period">/月</span></div>
+                        <div class="pricing-description">
+                            AI による深い心理分析とアドバイス
+                        </div>
+                        <ul class="pricing-features">
+                            <li>AI心理分析チャット</li>
+                            <li>月間サポート</li>
+                            <li>タロット占い</li>
+                            <li>セフィロトワーク</li>
+                        </ul>
+                        <a href="https://kokoroa.shopselect.net/items/146663758" target="_blank" class="btn-primary">詳細を見る</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>個別セッション</h3>
+                        <div class="price">¥15,000<span class="price-period">/3時間</span></div>
+                        <div class="pricing-description">
+                            1対1の深いカウンセリング
+                        </div>
+                        <ul class="pricing-features">
+                            <li>TAKARA によるマンツーマン</li>
+                            <li>Zoom対応</li>
+                            <li>3時間のセッション</li>
+                            <li>カスタムサポート</li>
+                        </ul>
+                        <a href="https://square.link/u/U2SnWR4F" target="_blank" class="btn-primary">予約する</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>会員限定コミュニティ</h3>
+                        <div class="price">¥550<span class="price-period">/月</span></div>
+                        <div class="pricing-description">
+                            心の奥底を探求する仲間との交流
+                        </div>
+                        <ul class="pricing-features">
+                            <li>掲示板コミュニティ</li>
+                            <li>会員限定スレッド</li>
+                            <li>同じテーマの仲間</li>
+                            <li>月間サポート</li>
+                        </ul>
+                        <button class="btn-primary" onclick="showSection('login')">参加する</button>
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-top: 3rem;">
+                    <h3>よくある質問</h3>
+                    <div style="margin-top: 1.5rem;">
+                        <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #f0f0f0;">
+                            <h4 style="color: #ff9a9e; margin-bottom: 0.5rem;">Q: キャンセルはできますか？</h4>
+                            <p style="color: #666;">A: セッションのキャンセルは前日までOKです。当日のキャンセルは承っておりません。返金制度はございません。</p>
+                        </div>
+                        <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #f0f0f0;">
+                            <h4 style="color: #ff9a9e; margin-bottom: 0.5rem;">Q: 複数プランの併用はできますか？</h4>
+                            <p style="color: #666;">A: はい、可能です。AI心理分析プラン + コミュニティ、などの組み合わせもご利用いただけます。</p>
+                        </div>
+                        <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #f0f0f0;">
+                            <h4 style="color: #ff9a9e; margin-bottom: 0.5rem;">Q: 初めてなのですが大丈夫？</h4>
+                            <p style="color: #666;">A: もちろんです。初めての方向けのサポートも充実しています。心理分析から始めるのがおすすめです。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI心理分析チャット（マイページ） -->
+        <section id="mypage">
+            <div class="container">
+                <h2>マイページ</h2>
+
+                <div id="not-logged-in" style="text-align: center; padding: 3rem 0;">
+                    <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">マイページをご利用いただくにはログインが必要です</p>
+                    <button class="btn-primary" onclick="showSection('login')" style="margin: 0 auto;">ログインする</button>
+                </div>
+
+                <div id="logged-in" style="display: none;">
+                    <div class="mypage-tabs">
+                        <button class="mypage-tab active" onclick="switchMypageTab('chat', this)">💬 AI心理分析</button>
+                        <button class="mypage-tab" onclick="switchMypageTab('tarot', this)">🔮 タロット占い</button>
+                        <button class="mypage-tab" onclick="switchMypageTab('sephiroth', this)">🌳 セフィロトワーク</button>
+                        <button class="mypage-tab" onclick="switchMypageTab('history', this)">📋 履歴</button>
+                    </div>
+
+                    <!-- AI心理分析チャット -->
+                    <div id="tab-chat" style="display: block;">
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="message assistant">
+                                    <div class="message-avatar">💕</div>
+                                    <div class="message-content">
+                                        こんにちは！愛ちゃんです。<br>今日はどんな気持ちで来てくれたのかな？<br>あなたの心のことなら、何でも話してね。
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-input-container">
+                                <input type="text" id="chat-input" placeholder="あなたの気持ちや悩みを教えてください..." onkeypress="if(event.key==='Enter') sendMessage()">
+                                <button class="chat-send-btn" id="send-btn" onclick="sendMessage()">送信</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- タロット占い -->
+                    <div id="tab-tarot" style="display: none;">
+                        <div style="text-align: center; margin: 2rem 0;">
+                            <p style="color: #666; margin-bottom: 2rem;">カードを選んでください。あなたへのメッセージが現れます。</p>
+                            <div class="tarot-grid">
+                                <div class="tarot-card" onclick="drawTarot()">🎴</div>
+                                <div class="tarot-card" onclick="drawTarot()">🎴</div>
+                                <div class="tarot-card" onclick="drawTarot()">🎴</div>
+                                <div class="tarot-card" onclick="drawTarot()">🎴</div>
+                                <div class="tarot-card" onclick="drawTarot()">🎴</div>
+                                <div class="tarot-card" onclick="drawTarot()">🎴</div>
+                            </div>
+                            <div id="tarot-result" style="margin-top: 2rem; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); display: none;">
+                                <h3 style="color: #ff9a9e; margin-bottom: 1rem;">あなたへのメッセージ</h3>
+                                <p id="tarot-message" style="color: #666; line-height: 1.8;"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- セフィロトワーク -->
+                    <div id="tab-sephiroth" style="display: none;">
+                        <div style="text-align: center; margin: 2rem 0;">
+                            <p style="color: #666; margin-bottom: 2rem;">生命の木（セフィロト）のワークを通じて、あなたの内面を探求します。</p>
+                            <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🌳</div>
+                                <h3 style="color: #ff9a9e; margin-bottom: 1rem;">セフィロトワーク</h3>
+                                <p style="color: #666; margin-bottom: 1.5rem;">
+                                    生命の木は、心理学とスピリチュアルの統合的な成長を象徴します。<br>
+                                    各セフィラ（球体）のワークを通じて、あなたの内面的な可能性を開花させましょう。
+                                </p>
+                                <button class="btn-primary" style="width: auto;">ワークを開始する</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 履歴 -->
+                    <div id="tab-history" style="display: none;">
+                        <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+                            <h3>チャット履歴</h3>
+                            <p style="color: #666; margin: 1rem 0;">本機能はデモンストレーション版です。実装後に履歴機能が利用できます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 会員限定コミュニティ -->
+        <section id="community">
+            <div class="container">
+                <h2>会員限定コミュニティ</h2>
+
+                <div id="community-not-logged-in" style="text-align: center; padding: 3rem 0;">
+                    <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">コミュニティをご利用いただくにはログインが必要です</p>
+                    <button class="btn-primary" onclick="showSection('login')" style="margin: 0 auto;">ログインして参加する</button>
+                </div>
+
+                <div id="community-logged-in" style="display: none;">
+                    <button class="new-thread-btn" onclick="createNewThread()">+ 新しいスレッドを作成</button>
+
+                    <div class="community-board" id="board-container">
+                        <div class="thread-item" onclick="openThread(1)">
+                            <div class="thread-title">インナーチャイルドとの向き合い方</div>
+                            <div class="thread-meta">投稿者: つるみゆき | 2026年6月10日 | 返信: 12件</div>
+                            <div class="thread-preview">最近、インナーチャイルドの癒しについて考えています。皆さんはどのようなアプローチをしていますか？</div>
+                        </div>
+
+                        <div class="thread-item" onclick="openThread(2)">
+                            <div class="thread-title">愛着スタイルと恋愛パターン</div>
+                            <div class="thread-meta">投稿者: さくら | 2026年6月9日 | 返信: 8件</div>
+                            <div class="thread-preview">同じパターンの恋愛が繰り返される理由について、愛着スタイルから理解したいです。</div>
+                        </div>
+
+                        <div class="thread-item" onclick="openThread(3)">
+                            <div class="thread-title">自己肯定感を高めるワーク</div>
+                            <div class="thread-meta">投稿者: かずこ | 2026年6月8日 | 返信: 15件</div>
+                            <div class="thread-preview">毎日実践できる自己肯定感を高めるワークをシェアしています。皆さんの体験も聞きたいです。</div>
+                        </div>
+
+                        <div class="thread-item" onclick="openThread(4)">
+                            <div class="thread-title">スピリチュアルと心理学の統合</div>
+                            <div class="thread-meta">投稿者: たかし | 2026年6月7日 | 返信: 6件</div>
+                            <div class="thread-preview">スピリチュアルな観点と心理学的なアプローチをどのように統合していますか？</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- プライバシーポリシー -->
+        <section id="privacy">
+            <div class="container">
+                <h2>プライバシーポリシー</h2>
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+                    <h3>個人情報の利用について</h3>
+                    <p style="color: #666; margin: 1rem 0;">
+                        cocoa カウンセリングルーム（以下「当ルーム」）は、ご利用者の個人情報を大切に扱い、適切に管理いたします。
+                    </p>
+
+                    <h3>情報の収集</h3>
+                    <p style="color: #666; margin: 1rem 0;">
+                        当ルームは、サービスの提供のために必要な個人情報を収集しています。これには、お名前、メールアドレス、その他ご利用者がご提供された情報が含まれます。
+                    </p>
+
+                    <h3>情報の利用</h3>
+                    <p style="color: #666; margin: 1rem 0;">
+                        収集した個人情報は、以下の目的でのみ使用します：
+                    </p>
+                    <ul style="color: #666; margin: 1rem 2rem;">
+                        <li>サービスの提供および向上</li>
+                        <li>ご利用者との連絡</li>
+                        <li>お問い合わせへの対応</li>
+                        <li>統計的な分析</li>
+                    </ul>
+
+                    <h3>情報の保護</h3>
+                    <p style="color: #666; margin: 1rem 0;">
+                        当ルームは、ご利用者の個人情報を保護するために、適切なセキュリティ対策を講じています。
+                    </p>
+
+                    <h3>第三者への開示</h3>
+                    <p style="color: #666; margin: 1rem 0;">
+                        当ルームは、法的に要求される場合を除き、ご利用者の個人情報を第三者に開示することはありません。
+                    </p>
+
+                    <h3>変更について</h3>
+                    <p style="color: #666; margin: 1rem 0;">
+                        本ポリシーは予告なく変更される場合があります。変更後の内容は、当ウェブサイトに掲載された時点で有効となります。
+                    </p>
+
+                    <p style="color: #999; font-size: 0.9rem; margin-top: 2rem; border-top: 1px solid #f0f0f0; padding-top: 1.5rem;">
+                        制定日：2026年6月10日<br>
+                        最終更新日：2026年6月10日
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 特定商取引法 -->
+        <section id="commerce">
+            <div class="container">
+                <h2>特定商取引法に基づく表示</h2>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 600; width: 200px;">販売者</td>
+                            <td>cocoa カウンセリングルーム</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">運営者</td>
+                            <td>TAKARA</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">住所・電話</td>
+                            <td>お問い合わせいただいた方に開示いたします</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">メール</td>
+                            <td>contact@kokoro.ai</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">販売商品</td>
+                            <td>AI心理分析プラン / 個別セッション / 会員限定コミュニティ</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">販売価格</td>
+                            <td>商品ページに記載</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">代金支払方法</td>
+                            <td>クレジットカード / その他各プラットフォーム指定方法</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">代金支払い時期</td>
+                            <td>申込み時</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">キャンセル・返金</td>
+                            <td>前日までキャンセル可能。当日のキャンセルは承っておりません。返金制度はございません。</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">サービス提供時期</td>
+                            <td>決済確認後、即座にご利用可能です</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">管轄</td>
+                            <td>沖縄県</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">制定日</td>
+                            <td>2026年6月10日</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ログイン -->
+        <section id="login">
+            <div class="login-container">
+                <h2 style="margin-top: 0;">ログイン</h2>
+
+                <div id="login-form">
+                    <div class="form-group">
+                        <label for="login-type">ログイン方法を選択</label>
+                        <select id="login-type" style="width: 100%; padding: 0.75rem; border: 2px solid #f0f0f0; border-radius: 8px; font-size: 1rem;" onchange="updateLoginForm()">
+                            <option value="access-key">アクセスキー</option>
+                            <option value="note-token">note トークン</option>
+                        </select>
+                    </div>
+
+                    <div id="access-key-form" style="display: block;">
+                        <div class="form-group">
+                            <label for="access-key">アクセスキー</label>
+                            <input type="password" id="access-key" placeholder="アクセスキーを入力">
+                        </div>
+                        <button class="btn-primary" style="width: 100%;" onclick="loginWithAccessKey()">ログイン</button>
+                    </div>
+
+                    <div id="note-token-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="note-token">note トークン</label>
+                            <input type="password" id="note-token" placeholder="note トークンを入力">
+                        </div>
+                        <button class="btn-primary" style="width: 100%;" onclick="loginWithNoteToken()">ログイン</button>
+                    </div>
+
+                    <div id="login-message" style="margin-top: 1.5rem; display: none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- お問い合わせ -->
+        <section id="contact">
+            <div class="container">
+                <h2>お問い合わせ</h2>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <form id="contact-form" style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+                        <div class="form-group">
+                            <label for="contact-name">お名前</label>
+                            <input type="text" id="contact-name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-email">メールアドレス</label>
+                            <input type="email" id="contact-email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-subject">件名</label>
+                            <input type="text" id="contact-subject" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-message">メッセージ</label>
+                            <textarea id="contact-message" style="width: 100%; padding: 0.75rem; border: 2px solid #f0f0f0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; min-height: 150px;" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="width: 100%;" onclick="submitContact(event)">送信する</button>
+                        <div id="contact-message-box" style="margin-top: 1rem; display: none;"></div>
+                    </form>
+
+                    <div style="margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #fff9f5 0%, #ffe9e6 100%); border-radius: 15px; text-align: center;">
+                        <h3 style="color: #333; margin-top: 0;">その他のお問い合わせ</h3>
+                        <p style="color: #666;">SNSでのダイレクトメッセージもお受けしています。</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/takara_insight/" target="_blank" class="social-icon" title="Instagram">📷</a>
+                            <a href="https://x.com/takaran0880" target="_blank" class="social-icon" title="X">𝕏</a>
+                            <a href="https://www.threads.net/@takara_insight" target="_blank" class="social-icon" title="Threads">💬</a>
+                            <a href="https://note.com/glad_skink4681" target="_blank" class="social-icon" title="note">📝</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <div class="footer-links">
+            <a onclick="showSection('home')">ホーム</a>
+            <a onclick="showSection('greeting')">ごあいさつ</a>
+            <a onclick="showSection('services')">サービス</a>
+            <a onclick="showSection('commerce')">特定商取引法</a>
+            <a onclick="showSection('privacy')">プライバシーポリシー</a>
+            <a onclick="showSection('contact')">お問い合わせ</a>
+        </div>
+
+        <div class="social-links">
+            <a href="https://www.instagram.com/takara_insight/" target="_blank" class="social-icon" title="Instagram">📷</a>
+            <a href="https://x.com/takaran0880" target="_blank" class="social-icon" title="X">𝕏</a>
+            <a href="https://www.threads.net/@takara_insight" target="_blank" class="social-icon" title="Threads">💬</a>
+            <a href="https://note.com/glad_skink4681" target="_blank" class="social-icon" title="note">📝</a>
+        </div>
+
+        <div class="copyright">
+            © 2026 cocoa カウンセリングルーム. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // ===== グローバル変数 =====
+        let isLoggedIn = false;
+        let loginMethod = null;
+
+        // ===== セクション表示 =====
+        function showSection(sectionId) {
+            // セクションを隠す
+            document.querySelectorAll('section').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // 指定されたセクションを表示
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // ===== ログイン機能 =====
+        function updateLoginForm() {
+            const loginType = document.getElementById('login-type').value;
+            document.getElementById('access-key-form').style.display = loginType === 'access-key' ? 'block' : 'none';
+            document.getElementById('note-token-form').style.display = loginType === 'note-token' ? 'block' : 'none';
+        }
+
+        function loginWithAccessKey() {
+            const key = document.getElementById('access-key').value;
+            if (key === 'KOKORO-MEMBER-2024') {
+                login('access-key');
+            } else {
+                showLoginMessage('アクセスキーが正しくありません', 'error');
+            }
+        }
+
+        function loginWithNoteToken() {
+            const token = document.getElementById('note-token').value;
+            if (token === 'NOTE_MEMBER_2024' || token === 'NOTE_MEMBER_2024?token=NOTE_MEMBER_2024') {
+                login('note-token');
+            } else {
+                showLoginMessage('note トークンが正しくありません', 'error');
+            }
+        }
+
+        function login(method) {
+            isLoggedIn = true;
+            loginMethod = method;
+            localStorage.setItem('kokoro_logged_in', 'true');
+            localStorage.setItem('kokoro_login_method', method);
+
+            // UI更新
+            updateLoginUI();
+
+            // ログイン後のメッセージ表示
+            showLoginMessage('ログインしました！', 'success');
+            setTimeout(() => {
+                showSection('mypage');
+            }, 1000);
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            loginMethod = null;
+            localStorage.removeItem('kokoro_logged_in');
+            localStorage.removeItem('kokoro_login_method');
+
+            // UI更新
+            updateLoginUI();
+
+            // ホームに戻る
+            showSection('home');
+        }
+
+        function updateLoginUI() {
+            const navLogin = document.getElementById('nav-login');
+            const navLogout = document.getElementById('nav-logout');
+            const notLoggedIn = document.getElementById('not-logged-in');
+            const loggedIn = document.getElementById('logged-in');
+            const communityNotLoggedIn = document.getElementById('community-not-logged-in');
+            const communityLoggedIn = document.getElementById('community-logged-in');
+
+            if (isLoggedIn) {
+                if (navLogin) navLogin.style.display = 'none';
+                if (navLogout) navLogout.style.display = 'block';
+                if (notLoggedIn) notLoggedIn.style.display = 'none';
+                if (loggedIn) loggedIn.style.display = 'block';
+                if (communityNotLoggedIn) communityNotLoggedIn.style.display = 'none';
+                if (communityLoggedIn) communityLoggedIn.style.display = 'block';
+            } else {
+                if (navLogin) navLogin.style.display = 'block';
+                if (navLogout) navLogout.style.display = 'none';
+                if (notLoggedIn) notLoggedIn.style.display = 'block';
+                if (loggedIn) loggedIn.style.display = 'none';
+                if (communityNotLoggedIn) communityNotLoggedIn.style.display = 'block';
+                if (communityLoggedIn) communityLoggedIn.style.display = 'none';
+            }
+        }
+
+        function showLoginMessage(message, type) {
+            const messageBox = document.getElementById('login-message');
+            messageBox.className = `alert ${type === 'error' ? 'error' : 'success'}`;
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        // ===== AIチャット =====
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            const messagesDiv = document.getElementById('chat-messages');
+            const sendBtn = document.getElementById('send-btn');
+
+            if (!message || !isLoggedIn) return;
+
+            // ユーザーメッセージを追加
+            const userMessageEl = document.createElement('div');
+            userMessageEl.className = 'message user';
+            userMessageEl.innerHTML = `
+                <div class="message-content">${escapeHtml(message)}</div>
+                <div class="message-avatar">👤</div>
+            `;
+            messagesDiv.appendChild(userMessageEl);
+            input.value = '';
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // ローディング表示
+            const loadingEl = document.createElement('div');
+            loadingEl.className = 'message assistant';
+            loadingEl.innerHTML = `
+                <div class="message-avatar">💕</div>
+                <div class="message-content loading">考え中...</div>
+            `;
+            messagesDiv.appendChild(loadingEl);
+            sendBtn.disabled = true;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            try {
+                // Anthropic APIを呼び出し
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': 'YOUR_ANTHROPIC_API_KEY', // 環境変数から取得するように設定してください
+                        'anthropic-version': '2023-06-01'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1024,
+                        system: `あなたは「愛ちゃん」というAI心理カウンセラーです。女性性エネルギーを象徴し、温かく、包容力のある対応をします。
+
+ユーザーの心の悩みや不安に対して、心理学とスピリチュアルの視点から丁寧にサポートしてください。
+- インナーチャイルド、愛着スタイル、自己肯定感についての深い理解を持っている
+- ユーザーの感情を大切にし、共感的に応答する
+- 実践的なアドバイスと、スピリチュアルな視点の両立
+- 日本語で、敬語や丁寧な言葉遣いを心がける
+- 短すぎず、かといって長すぎない、バランスの取れた返答
+- ユーザーの成長を応援する温かみのあるトーン`,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ]
+                    })
+                });
+
+                loadingEl.remove();
+
+                if (!response.ok) {
+                    throw new Error('API Error: ' + response.status);
+                }
+
+                const data = await response.json();
+                const aiMessage = data.content[0].text;
+
+                // AIメッセージを追加
+                const assistantMessageEl = document.createElement('div');
+                assistantMessageEl.className = 'message assistant';
+                assistantMessageEl.innerHTML = `
+                    <div class="message-avatar">💕</div>
+                    <div class="message-content">${escapeHtml(aiMessage)}</div>
+                `;
+                messagesDiv.appendChild(assistantMessageEl);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            } catch (error) {
+                console.error('Error:', error);
+                loadingEl.remove();
+
+                // デモ用の応答（APIキーがない場合）
+                const demoResponses = [
+                    '今、どんな気持ちを感じていますか？その気持ちをもっと詳しく教えてくれますか？',
+                    'それは大変ですね。あなたの心が感じていることを、もっと掘り下げてみませんか？',
+                    'そうなんですね。その経験があなたの心にどのような影響を与えているのか、一緒に探ってみましょう。',
+                    'あなたの気づきが素敵です。そこから何が見えてくるのか、一緒に考えてみませんか？'
+                ];
+                const demoMessage = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+
+                const assistantMessageEl = document.createElement('div');
+                assistantMessageEl.className = 'message assistant';
+                assistantMessageEl.innerHTML = `
+                    <div class="message-avatar">💕</div>
+                    <div class="message-content">${demoMessage}</div>
+                `;
+                messagesDiv.appendChild(assistantMessageEl);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+
+        // ===== マイページタブ =====
+        function switchMypageTab(tabName, element) {
+            // タブボタンのアクティブ状態を更新
+            document.querySelectorAll('.mypage-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // タブコンテンツを表示
+            document.querySelectorAll('[id^="tab-"]').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.getElementById('tab-' + tabName).style.display = 'block';
+        }
+
+        // ===== タロット =====
+        function drawTarot() {
+            const tarotMessages = [
+                '💫 新しい始まり: あなたの中に眠っていた才能が目覚めようとしています。この変化を信頼し、進み続けてください。',
+                '🌸 癒しと成長: 今、あなたの心が修復されています。自分を優しく労わることの大切さに気づきましたね。',
+                '🔥 情熱と勇気: あなたの中に秘めた情熱が花開く時が来ています。恐れずに、本当の気持ちに従いましょう。',
+                '🌊 流れに身を任せる: すべてが完璧なタイミングで起こっています。今は受け入れることが大事です。',
+                '✨ 自己肯定: あなたは既に十分な価値を持っています。その事実を心で感じる時がきたのです。',
+                '💝 愛とつながり: 周囲との関係性が深まる時期です。自分も他者も愛する力を信じてください。'
+            ];
+
+            const randomMessage = tarotMessages[Math.floor(Math.random() * tarotMessages.length)];
+            const resultDiv = document.getElementById('tarot-result');
+            const messageEl = document.getElementById('tarot-message');
+
+            messageEl.textContent = randomMessage;
+            resultDiv.style.display = 'block';
+        }
+
+        // ===== ボトムナビ =====
+        function updateBottomNav(element) {
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        // ===== コミュニティ =====
+        function createNewThread() {
+            const title = prompt('スレッドのタイトルを入力してください:');
+            if (title) {
+                alert('新しいスレッドが作成されました！');
+            }
+        }
+
+        function openThread(threadId) {
+            alert('スレッド ' + threadId + ' を開きます。詳細ページの実装予定です。');
+        }
+
+        // ===== お問い合わせ =====
+        function submitContact(event) {
+            event.preventDefault();
+            const messageBox = document.getElementById('contact-message-box');
+            messageBox.className = 'alert success';
+            messageBox.textContent = 'ご送信ありがとうございました。後ほどご連絡させていただきます。';
+            messageBox.style.display = 'block';
+            document.getElementById('contact-form').reset();
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        // ===== ユーティリティ =====
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // ===== 初期化 =====
+        window.addEventListener('DOMContentLoaded', function() {
+            // ローカルストレージからログイン状態を復元
+            if (localStorage.getItem('kokoro_logged_in') === 'true') {
+                isLoggedIn = true;
+                loginMethod = localStorage.getItem('kokoro_login_method');
+                updateLoginUI();
+            }
+        });
+
+        // ===== レスポンシブ対応 =====
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
