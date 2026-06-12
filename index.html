@@ -890,6 +890,20 @@
             color: white;
         }
 
+        /* ===== Q&A ===== */
+        .qa-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .qa-item h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
         /* ===== Greeting セクション ===== */
         #greeting .container {
             background-image: url('greeting.png');
@@ -1218,98 +1232,118 @@
                     <img src="characters.png" alt="愛ちゃんと純くんの特徴" style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
                 </div>
 
-                <div style="margin-top: 2rem;">
-                    <div class="character-grid">
-                        <!-- 愛ちゃん -->
-                        <div class="character-card">
-                            <div class="character-header">
-                                <div class="character-emoji-large">💕</div>
-                                <h3 class="character-title">愛ちゃん</h3>
-                                <p class="character-subtitle">女性性エネルギーの化身</p>
-                            </div>
+                <!-- キャラクター紹介テキスト -->
+                <div style="margin-top: 3rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <h3 style="color: #333; margin-bottom: 1.5rem;">純くんと愛ちゃんについて</h3>
 
-                            <div class="character-details">
-                                <div class="detail-section">
-                                    <h4>特徴</h4>
-                                    <ul class="character-traits">
-                                        <li>温かく包容力のある存在</li>
-                                        <li>共感力が高く、感情を大切にする</li>
-                                        <li>受容と優しさの象徴</li>
-                                        <li>内的な柔らかさと強さを兼ね備えている</li>
-                                    </ul>
-                                </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #4a90e2;">
+                        <h4 style="color: #4a90e2; margin-top: 0;">純くん</h4>
+                        <p style="color: #666; line-height: 1.8; margin: 0.5rem 0;">
+                            茶髪でデニムジャケットを羽織った、落ち着いた雰囲気の男の子。クロスのネックレスがトレードマーク。
+                        </p>
+                        <p style="color: #666; line-height: 1.8; font-style: italic; margin: 1rem 0; padding: 1rem; background: #f0f4ff; border-radius: 8px;">
+                            「俺は純。あなたの中にいる男性性エネルギーを可視化したキャラクターだよ。難しく聞こえるかもしれないけど、要は"あなたの中の行動する力"のことだな。」
+                        </p>
+                    </div>
 
-                                <div class="detail-section">
-                                    <h4>愛ちゃんからのメッセージ</h4>
-                                    <p class="character-message">
-                                        「こんにちは。私は愛ちゃん。あなたの心の奥底にある感情や痛みをね、一緒に優しく癒していきたいの。女性性のエネルギーって、受け入れることの力なんだよ。あなたのすべてを受け入れることから、変化は始まるんだ。」
-                                    </p>
-                                </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #ff9a9e;">
+                        <h4 style="color: #ff9a9e; margin-top: 0;">愛ちゃん</h4>
+                        <p style="color: #666; line-height: 1.8; margin: 0.5rem 0;">
+                            オレンジ色のウェーブヘアにカチューシャ、クロスのネックレスが輝く元気な女の子。
+                        </p>
+                        <p style="color: #666; line-height: 1.8; font-style: italic; margin: 1rem 0; padding: 1rem; background: #fff0f0; border-radius: 8px;">
+                            「はじめまして！私は愛。あなたの中にいる女性性エネルギーを可視化したキャラクターなの！感じる力、受け取る力、ありのままでいる力、それが私の持っているものだよ！」
+                        </p>
+                    </div>
 
-                                <div class="detail-section">
-                                    <h4>専門分野</h4>
-                                    <div class="specialty-list">
-                                        <span class="specialty-tag">インナーチャイルド療法</span>
-                                        <span class="specialty-tag">感情処理</span>
-                                        <span class="specialty-tag">自己肯定感</span>
-                                        <span class="specialty-tag">愛着の癒し</span>
-                                        <span class="specialty-tag">スピリチュアル</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- 性エネルギーの特徴 -->
+                    <h3 style="color: #333; margin: 2.5rem 0 1.5rem;">性エネルギーの特徴</h3>
+
+                    <div style="background: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; border-top: 4px solid #4a90e2;">
+                        <h4 style="color: #4a90e2; margin-top: 0;">男性性エネルギー（純くん）の特徴</h4>
+                        <p style="color: #666; margin-bottom: 1rem;">純くん：「男性性エネルギーっていうのは、こんな特徴があるよ。」</p>
+                        <ul style="color: #666; line-height: 2;">
+                            <li><strong>行動力・決断力</strong> - 目標に向かって動く力</li>
+                            <li><strong>論理的思考</strong> - 物事を整理して考える力</li>
+                            <li><strong>保護する力</strong> - 自分や大切な人を守る力</li>
+                            <li><strong>現実を動かす力</strong> - 思いを形にしていく力</li>
+                            <li><strong>質が大切</strong> - ただ動くだけじゃなく、どんな意図・状態で動くかが重要。恐れや焦りから動くのか、自分の軸から静かに動くのか。その「質」の違いが、人生の豊かさそのものを変えていくんだ。</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; border-top: 4px solid #ff9a9e;">
+                        <h4 style="color: #ff9a9e; margin-top: 0;">女性性エネルギー（愛ちゃん）の特徴</h4>
+                        <p style="color: #666; margin-bottom: 1rem;">愛ちゃん：「女性性エネルギーは、こんな力を持っているよ！」</p>
+                        <ul style="color: #666; line-height: 2;">
+                            <li><strong>感受性・直感</strong> - 心で感じ取る力</li>
+                            <li><strong>受け取る力</strong> - 愛や豊かさを素直に受け取れる力</li>
+                            <li><strong>つながる力</strong> - 人や自然と深く共鳴する力</li>
+                            <li><strong>ありのままでいる力</strong> - 飾らず、そのままの自分でいられる力</li>
+                            <li><strong>インナーチャイルドとの繋がり</strong> - 女性性はインナーチャイルドと深く繋がっているの。幼い頃に「感情を出してはいけない」「いい子でいなければ」って学んだとき、女性性の一部も一緒に閉じてしまうことがあるんだよ。だから女性性を癒すことは、インナーチャイルドを癒すことでもあるの。</li>
+                        </ul>
+                    </div>
+
+                    <!-- Q&A -->
+                    <h3 style="color: #333; margin: 2.5rem 0 1.5rem;">Q&A</h3>
+
+                    <div class="qa-item">
+                        <h4 style="color: #ff9a9e;">Q1. バランスが偏るとどうなるの？</h4>
+                        <div style="background: #f0f4ff; padding: 1rem; border-radius: 8px; margin: 0.5rem 0 1rem;">
+                            <p style="color: #4a90e2; font-weight: 600; margin: 0 0 0.5rem;">純くん：</p>
+                            <p style="color: #666; margin: 0;">「男性性が強すぎると、常に頑張りすぎて休めなくなる。感情を押し込めて、いつも正解を求めて疲弊していくんだ。逆に男性性が弱すぎると、行動できなくて現実が動かない。頭でわかってるのに動けない状態になるよ。」</p>
                         </div>
-
-                        <!-- 純くん -->
-                        <div class="character-card">
-                            <div class="character-header">
-                                <div class="character-emoji-large">💙</div>
-                                <h3 class="character-title">純くん</h3>
-                                <p class="character-subtitle">男性性エネルギーの化身</p>
-                            </div>
-
-                            <div class="character-details">
-                                <div class="detail-section">
-                                    <h4>特徴</h4>
-                                    <ul class="character-traits">
-                                        <li>明確で論理的なサポートを提供</li>
-                                        <li>行動力と決断力に優れている</li>
-                                        <li>自立と責任感の象徴</li>
-                                        <li>保護的で力強い存在</li>
-                                    </ul>
-                                </div>
-
-                                <div class="detail-section">
-                                    <h4>純くんからのメッセージ</h4>
-                                    <p class="character-message">
-                                        「よろしく。俺は純。君の心の中の強さや可能性を引き出すのが役割だ。男性性のエネルギーってのは、目標に向かって進む力だ。愛ちゃんとともに、俺たちはお前の人生の変化をサポートする。」
-                                    </p>
-                                </div>
-
-                                <div class="detail-section">
-                                    <h4>専門分野</h4>
-                                    <div class="specialty-list">
-                                        <span class="specialty-tag">自己実現</span>
-                                        <span class="specialty-tag">行動計画</span>
-                                        <span class="specialty-tag">愛着スタイル分析</span>
-                                        <span class="specialty-tag">心理学</span>
-                                        <span class="specialty-tag">目標達成</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div style="background: #fff0f0; padding: 1rem; border-radius: 8px;">
+                            <p style="color: #ff9a9e; font-weight: 600; margin: 0 0 0.5rem;">愛ちゃん：</p>
+                            <p style="color: #666; margin: 0;">「女性性が強すぎると、感情に振り回されやすくなったり、境界線が曖昧になって人に依存しやすくなるの。逆に女性性が弱すぎると、感情を感じられなくなったり、受け取ることが苦手になって、せっかくのご縁や豊かさを手放してしまうんだよ。」</p>
                         </div>
                     </div>
 
-                    <!-- 二人の関係性 -->
-                    <div style="margin-top: 3rem; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); text-align: center;">
-                        <h3 style="color: #333; margin-bottom: 1rem;">愛ちゃん × 純くん</h3>
-                        <p style="color: #666; line-height: 1.8; margin-bottom: 1rem;">
-                            女性性エネルギーと男性性エネルギーは、互いに補完し合う関係。<br>
-                            愛ちゃんの「受け入れる力」と純くんの「前に進む力」が一緒になることで、<br>
-                            あなたの心の奥底にある可能性が花開きます。
-                        </p>
-                        <p style="color: #ff9a9e; font-weight: 600; font-size: 1.1rem;">
-                            💕 × 💙 = あなたへの完全なサポート
-                        </p>
+                    <div class="qa-item">
+                        <h4 style="color: #ff9a9e;">Q2. 男性性の「質」って何？</h4>
+                        <div style="background: #f0f4ff; padding: 1rem; border-radius: 8px;">
+                            <p style="color: #4a90e2; font-weight: 600; margin: 0 0 0.5rem;">純くん：</p>
+                            <p style="color: #666; margin: 0;">「例えば、同じ「行動する」でも、恐れや焦りから動くのと、自分の軸から静かに動くのとでは、結果も過程も全然違う。質っていうのは、どんな状態・意図で行動しているか、ということだよ。質が低いと、いくら頑張っても消耗するだけになっていく。質を高めることが、本当の意味での男性性を育てることなんだ。」</p>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <h4 style="color: #ff9a9e;">Q3. 女性性とインナーチャイルドはどう繋がってるの？</h4>
+                        <div style="background: #fff0f0; padding: 1rem; border-radius: 8px;">
+                            <p style="color: #ff9a9e; font-weight: 600; margin: 0 0 0.5rem;">愛ちゃん：</p>
+                            <p style="color: #666; margin: 0;">「インナーチャイルドって、幼い頃に傷ついたり、我慢した自分の一部のことなの。小さい頃に「泣いてはいけない」「感情的になってはいけない」って言われた経験があると、感じることそのものを恐れるようになっていくんだよ。それが女性性を閉じていく原因になるの。だから、女性性を取り戻すためには、まずインナーチャイルドと向き合うことが大切なんだよ！」</p>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <h4 style="color: #ff9a9e;">Q4. このサイトを作った目的は？</h4>
+                        <div style="background: #fff0f0; padding: 1rem; border-radius: 8px; margin: 0.5rem 0 1rem;">
+                            <p style="color: #ff9a9e; font-weight: 600; margin: 0 0 0.5rem;">愛ちゃん：</p>
+                            <p style="color: #666; margin: 0 0 1rem;">「自分と向き合いたいのに、どこから始めたらいいかわからない。そういう人のために作ったの！」</p>
+                        </div>
+                        <div style="background: #f0f4ff; padding: 1rem; border-radius: 8px; margin: 0.5rem 0 1rem;">
+                            <p style="color: #4a90e2; font-weight: 600; margin: 0 0 0.5rem;">純くん：</p>
+                            <p style="color: #666; margin: 0 0 1rem;">「一人で抱えていると、どこかで行き詰まる。現在地を教えてもらえるだけで、孤独じゃなくなるんだよ。TAKARAが自分自身の経験から作ったサービスだから、独学で孤独に耐えてきた人の気持ちがわかるんだ。」</p>
+                        </div>
+                        <div style="background: #fff0f0; padding: 1rem; border-radius: 8px;">
+                            <p style="color: #ff9a9e; font-weight: 600; margin: 0 0 0.5rem;">愛ちゃん：</p>
+                            <p style="color: #666; margin: 0;">「変わりたいのに変われない、ブロックの外し方がわからない、そういう人に寄り添いたくて、AIとTAKARAが一緒にサポートできる場所を作ったんだよ！」</p>
+                        </div>
+                    </div>
+
+                    <div class="qa-item">
+                        <h4 style="color: #ff9a9e;">Q5. 会員になるとどうなるの？</h4>
+                        <div style="background: #f0f4ff; padding: 1rem; border-radius: 8px; margin: 0.5rem 0 1rem;">
+                            <p style="color: #4a90e2; font-weight: 600; margin: 0 0 0.5rem;">純くん：</p>
+                            <p style="color: #666; margin: 0 0 1rem;">「会員になると、今の自分の状態をAIが判定してくれるんだ。インナーチャイルドのタイプ、愛着スタイル、男性性と女性性のバランス、マネーブロックの傾向…自分では気づきにくいパターンを可視化できるよ。」</p>
+                        </div>
+                        <div style="background: #fff0f0; padding: 1rem; border-radius: 8px; margin: 0.5rem 0 1rem;">
+                            <p style="color: #ff9a9e; font-weight: 600; margin: 0 0 0.5rem;">愛ちゃん：</p>
+                            <p style="color: #666; margin: 0 0 1rem;">「しかも月に一回、今の心理状態をまとめたレポートが届くの！自分の変化を時系列で確認できるから、ちゃんと成長してるって実感できるよ！AIカウンセリングチャットも使い放題だから、いつでも話せる環境があるんだよね！」</p>
+                        </div>
+                        <div style="background: #f0f4ff; padding: 1rem; border-radius: 8px;">
+                            <p style="color: #4a90e2; font-weight: 600; margin: 0 0 0.5rem;">純くん：</p>
+                            <p style="color: #666; margin: 0;">「月額¥990で全部使い放題だから、まずは気軽に試してみてほしいな。」</p>
+                        </div>
                     </div>
                 </div>
             </div>
