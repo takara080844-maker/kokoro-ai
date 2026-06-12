@@ -137,22 +137,29 @@
         /* ===== ホーム ===== */
         .hero {
             background: linear-gradient(135deg, #fff9f5 0%, #ffe9e6 100%);
-            padding: 4rem 2rem;
+            background-image: url('hero.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 8rem 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 182, 193, 0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 0;
         }
 
         @keyframes float {
@@ -165,6 +172,11 @@
             z-index: 1;
             max-width: 800px;
             margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .hero h1 {
