@@ -773,6 +773,123 @@
             margin-top: 1rem;
         }
 
+        /* ===== キャラクター紹介 ===== */
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .character-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .character-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .character-header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .character-emoji-large {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .character-title {
+            font-size: 1.8rem;
+            margin: 0.5rem 0;
+            color: white;
+        }
+
+        .character-subtitle {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+        }
+
+        .character-details {
+            padding: 2rem;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-section h4 {
+            color: #ff9a9e;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            margin-top: 0;
+        }
+
+        .character-traits {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .character-traits li {
+            color: #666;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .character-traits li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            color: #ff9a9e;
+        }
+
+        .character-message {
+            color: #666;
+            font-style: italic;
+            line-height: 1.8;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-left: 4px solid #ff9a9e;
+            border-radius: 5px;
+            margin: 0;
+        }
+
+        .specialty-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .specialty-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(255, 154, 158, 0.1), rgba(250, 208, 196, 0.1));
+            color: #ff9a9e;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #ff9a9e;
+            transition: all 0.3s;
+        }
+
+        .specialty-tag:hover {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+        }
+
         /* ===== Greeting セクション ===== */
         #greeting .container {
             background-image: url('greeting.png');
@@ -848,6 +965,10 @@
 
             .hero h1 {
                 font-size: 2rem;
+            }
+
+            .character-grid {
+                grid-template-columns: 1fr;
             }
 
             .profile-grid {
@@ -954,6 +1075,7 @@
             <div class="logo">✨ kokoro.ai</div>
             <ul class="nav-links">
                 <li><a onclick="showSection('greeting')">ごあいさつ</a></li>
+                <li><a onclick="showSection('characters')">キャラクター</a></li>
                 <li><a onclick="showSection('profile')">プロフィール</a></li>
                 <li><a onclick="showSection('privacy')">プライバシー</a></li>
                 <li><a onclick="showSection('contact')">お問い合わせ</a></li>
@@ -1081,6 +1203,109 @@
                     <p style="color: #999; font-size: 0.95rem; margin-top: 2rem; border-top: 1px solid #f0f0f0; padding-top: 1.5rem;">
                         — cocoa カウンセリングルーム TAKARA
                     </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- キャラクター紹介 -->
+        <section id="characters">
+            <div class="container">
+                <h2>キャラクター紹介</h2>
+                <button class="back-to-home" onclick="showSection('home')">← ホームに戻る</button>
+
+                <div style="margin-top: 2rem;">
+                    <div class="character-grid">
+                        <!-- 愛ちゃん -->
+                        <div class="character-card">
+                            <div class="character-header">
+                                <div class="character-emoji-large">💕</div>
+                                <h3 class="character-title">愛ちゃん</h3>
+                                <p class="character-subtitle">女性性エネルギーの化身</p>
+                            </div>
+
+                            <div class="character-details">
+                                <div class="detail-section">
+                                    <h4>特徴</h4>
+                                    <ul class="character-traits">
+                                        <li>温かく包容力のある存在</li>
+                                        <li>共感力が高く、感情を大切にする</li>
+                                        <li>受容と優しさの象徴</li>
+                                        <li>内的な柔らかさと強さを兼ね備えている</li>
+                                    </ul>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h4>愛ちゃんからのメッセージ</h4>
+                                    <p class="character-message">
+                                        「こんにちは。私は愛ちゃん。あなたの心の奥底にある感情や痛みをね、一緒に優しく癒していきたいの。女性性のエネルギーって、受け入れることの力なんだよ。あなたのすべてを受け入れることから、変化は始まるんだ。」
+                                    </p>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h4>専門分野</h4>
+                                    <div class="specialty-list">
+                                        <span class="specialty-tag">インナーチャイルド療法</span>
+                                        <span class="specialty-tag">感情処理</span>
+                                        <span class="specialty-tag">自己肯定感</span>
+                                        <span class="specialty-tag">愛着の癒し</span>
+                                        <span class="specialty-tag">スピリチュアル</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 純くん -->
+                        <div class="character-card">
+                            <div class="character-header">
+                                <div class="character-emoji-large">💙</div>
+                                <h3 class="character-title">純くん</h3>
+                                <p class="character-subtitle">男性性エネルギーの化身</p>
+                            </div>
+
+                            <div class="character-details">
+                                <div class="detail-section">
+                                    <h4>特徴</h4>
+                                    <ul class="character-traits">
+                                        <li>明確で論理的なサポートを提供</li>
+                                        <li>行動力と決断力に優れている</li>
+                                        <li>自立と責任感の象徴</li>
+                                        <li>保護的で力強い存在</li>
+                                    </ul>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h4>純くんからのメッセージ</h4>
+                                    <p class="character-message">
+                                        「よろしく。俺は純。君の心の中の強さや可能性を引き出すのが役割だ。男性性のエネルギーってのは、目標に向かって進む力だ。愛ちゃんとともに、俺たちはお前の人生の変化をサポートする。」
+                                    </p>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h4>専門分野</h4>
+                                    <div class="specialty-list">
+                                        <span class="specialty-tag">自己実現</span>
+                                        <span class="specialty-tag">行動計画</span>
+                                        <span class="specialty-tag">愛着スタイル分析</span>
+                                        <span class="specialty-tag">心理学</span>
+                                        <span class="specialty-tag">目標達成</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 二人の関係性 -->
+                    <div style="margin-top: 3rem; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); text-align: center;">
+                        <h3 style="color: #333; margin-bottom: 1rem;">愛ちゃん × 純くん</h3>
+                        <p style="color: #666; line-height: 1.8; margin-bottom: 1rem;">
+                            女性性エネルギーと男性性エネルギーは、互いに補完し合う関係。<br>
+                            愛ちゃんの「受け入れる力」と純くんの「前に進む力」が一緒になることで、<br>
+                            あなたの心の奥底にある可能性が花開きます。
+                        </p>
+                        <p style="color: #ff9a9e; font-weight: 600; font-size: 1.1rem;">
+                            💕 × 💙 = あなたへの完全なサポート
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
